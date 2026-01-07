@@ -11,5 +11,30 @@ app.use('/user/:id', (req, res, next) => {
 })
 
 app.use("/api", routerConfig);
-console.log('Express configuration loaded.');
+
+app.use((req,res,next)=>{
+  next({
+    code:404,
+    message:"Route Not Found",    
+    status:"NOT_FOUND",
+  })
+    // res.status(404).json({
+    //     error:null,
+    //     message:"Route Not Found",    
+    //     status:404,
+    //     options:null
+    // })
+})
+app.use((error,req,res,next)=>{
+let code = error.code || 500;
+let errorDetail = error.details || null;
+let msg = error.message || "Something went wrong";
+let status = error.status || "INTERNAL_SERVER_ERROR";
+res.status(code).json({
+    error:errorDetail,
+    message:msg,
+    status:status,
+    options:null
+})
+})
 module.exports = app;
