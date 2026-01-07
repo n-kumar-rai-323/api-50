@@ -1,7 +1,8 @@
 class AuthController{
     register(req,res,next){
+        let data = req.body;
         res.json({
-            data:null,
+            data:data,
             message:"User registered successfully",
             status:201,
             options:null
