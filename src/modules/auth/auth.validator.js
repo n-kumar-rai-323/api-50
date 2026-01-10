@@ -11,7 +11,8 @@ const UserRegisterDTO = Joi.object({
     confirmPassword:Joi.string().allow(Joi.ref('password')).required(),
     countryCode:Joi.string(),
     phone:Joi.string().min(10).max(10),
-    role:Joi.string().allow(UserRole.ADMIN, UserRole.SELLER, UserRole.CUSTOMER).default(UserRole.CUSTOMER)
+    role:Joi.string().allow(UserRole.ADMIN, UserRole.SELLER, UserRole.CUSTOMER).default(UserRole.CUSTOMER),
+    
 })
 
 module.exports={

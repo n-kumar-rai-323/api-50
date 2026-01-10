@@ -12,6 +12,7 @@ app.use('/user/:id', (req, res, next) => {
 
 app.use("/api", routerConfig);
 
+//404 Error Handler 
 app.use((req,res,next)=>{
   next({
     code:404,

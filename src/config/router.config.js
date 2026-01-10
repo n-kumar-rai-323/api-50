@@ -24,5 +24,5 @@ routerConfig.get("/:username",(req,res,next)=>{
 })
 
 routerConfig.use('/auth',authRouter);
-console.log('Router configuration loaded.');
+
 module.exports = routerConfig;
