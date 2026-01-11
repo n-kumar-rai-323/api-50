@@ -1,12 +1,20 @@
-class AuthController{
-    register(req,res,next){
-        let data = req.body;
-        res.json({
-            data:data,
-            message:"User registered successfully",
-            status:201,
-            options:null
-        })
+const cloudinarySvc = require("../../services/cloudinary.service");
+
+class AuthController {
+    register = async (req, res, next) => {
+        try {
+            let data = req.body;
+            let image = await cloudinarySvc.uploadFile(req.file.path, 'user/');
+
+            res.json({
+                data: { data, image },
+                message: "User registered successfully",
+                status: 201,
+                options: null
+            });
+        } catch (exception) {
+            next(exception);
+        }
     }
 }
 
