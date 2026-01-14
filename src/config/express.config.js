@@ -1,6 +1,7 @@
 const express = require('express');
 const routerConfig = require('./router.config');
 const app = express();
+const fs = require('fs');
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -31,6 +32,10 @@ let code = error.code || 500;
 let errorDetail = error.details || null;
 let msg = error.message || "Something went wrong";
 let status = error.status || "INTERNAL_SERVER_ERROR";
+
+if(req.file && fs.existsSync(req.file.path)){
+  fs.unlinkSync(req.file.path);
+}
 res.status(code).json({
     error:errorDetail,
     message:msg,

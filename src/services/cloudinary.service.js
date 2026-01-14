@@ -24,7 +24,8 @@ uploadFile= async(file,dir='')=>{
             fetch_format:"auto"
         })
 
-        return{uploadResult, optimizeUrl};
+        // return{uploadResult, optimizeUrl};
+        return { url: uploadResult.secure_url, optimizedUrl: optimizeUrl };
     }catch (error) {
     console.error("Cloudinary Error:", error);
 
