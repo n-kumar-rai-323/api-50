@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { UserRole } = require("../../config/constants");
+const { UserRole,Gender,UserStatus } = require("../../config/constants");
 
 const UserSchema = new mongoose.Schema({
     name:{
@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
     },
     phone:{
         countryCode:String,
-        number:String
+        phone:String
     },
     address:{
         billing:String,

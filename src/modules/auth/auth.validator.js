@@ -10,8 +10,16 @@ const UserRegisterDTO = Joi.object({
     password:Joi.string().min(6).required(),
     confirmPassword:Joi.string().allow(Joi.ref('password')).required(),
     countryCode:Joi.string(),
-    phone:Joi.string().min(10).max(10),
     role:Joi.string().allow(UserRole.ADMIN, UserRole.SELLER, UserRole.CUSTOMER).default(UserRole.CUSTOMER),
+    phone:Joi.object({
+        countryCode:Joi.string(),
+        phone:Joi.string().min(10).max(10)
+    }).allow(null,"").default(null),
+    gender:Joi.string().optional(),
+    address:Joi.object({
+        billing:Joi.string().optional(),
+        shipping:Joi.string().optional()
+    }).allow(null,"").default(null)
     
 })
 
