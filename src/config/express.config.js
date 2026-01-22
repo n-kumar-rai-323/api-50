@@ -1,6 +1,8 @@
 const express = require('express');
 const routerConfig = require('./router.config');
+require('./mongoose.config'); // Initialize mongoose connection
 const app = express();
+
 const fs = require('fs');
 
 app.use(express.json())

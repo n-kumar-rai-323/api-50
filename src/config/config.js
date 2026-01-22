@@ -15,4 +15,12 @@ const smtpConfig={
     from:process.env.SMTP_FROM
 
 }
-module.exports = { cloudinaryConfig, smtpConfig };
+
+const dbConfig={
+    mongodb:{
+        url:process.env.MONGODB_URL,
+        // localURL:process.env.MONGODB_LOCAL_URL,
+        name:process.env.MONGODB_DB_NAME
+        }
+}
+module.exports = { cloudinaryConfig, smtpConfig, dbConfig };

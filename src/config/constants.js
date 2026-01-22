@@ -3,6 +3,19 @@ const UserRole={
     SELLER:'seller',
     CUSTOMER:'customer'
 }
+
+const Gender={
+    MALE:'male',
+    FEMALE:'female',
+    OTHER:'other'
+}
+const UserStatus={
+    ACTIVE:'active',
+    INACTIVE:'inactive',
+    BLOCKED:'blocked'
+}                   
 module.exports={
-    UserRole
+    UserRole,
+    Gender,
+    UserStatus
 }
