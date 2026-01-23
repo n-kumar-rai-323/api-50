@@ -23,4 +23,8 @@ const dbConfig={
         name:process.env.MONGODB_DB_NAME
         }
 }
-module.exports = { cloudinaryConfig, smtpConfig, dbConfig };
+
+AppConfig={
+    frontendURL:process.env.FRONTEND_URL
+}
+module.exports = { cloudinaryConfig, smtpConfig, dbConfig, AppConfig };

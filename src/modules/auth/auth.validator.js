@@ -15,7 +15,7 @@ const UserRegisterDTO = Joi.object({
         countryCode:Joi.string(),
         phone:Joi.string().min(10).max(10)
     }).allow(null,"").default(null),
-    gender:Joi.string().optional(),
+    gender:Joi.string().regex(/^(male|female|other)$/).optional(),
     address:Joi.object({
         billing:Joi.string().optional(),
         shipping:Joi.string().optional()
