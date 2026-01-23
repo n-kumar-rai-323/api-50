@@ -25,6 +25,9 @@ const dbConfig={
 }
 
 AppConfig={
-    frontendURL:process.env.FRONTEND_URL
+    frontendURL:process.env.FRONTEND_URL,
+    jwtSecret:process.env.JWT_SECRET
 }
-module.exports = { cloudinaryConfig, smtpConfig, dbConfig, AppConfig };
+
+
+module.exports = { cloudinaryConfig, smtpConfig, dbConfig, AppConfig }; 

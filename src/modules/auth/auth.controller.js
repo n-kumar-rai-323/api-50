@@ -1,6 +1,9 @@
+const { AppConfig } = require("../../config/config");
 const { UserStatus } = require("../../config/constants");
 const emailSvc = require("../../services/email.service");
 const authSvc = require("./auth.service");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 class AuthController {
     register = async (req, res, next) => {
         try {
@@ -73,6 +76,65 @@ class AuthController {
         }
     }
 
+    login = async (req, res, next) => {
+        try {
+            // Login logic to be implemented 
+            const {email, password}=req.body;
+            
+            const userDetails=await authSvc.getSingleRowByfilter({
+                email:email
+            })
+          
+            if(!userDetails){
+                throw {
+                    code: 401,
+                    message: "User not registered",
+                    status: "UNAUTHORIZED"
+                }
+            }
+            // 1. Verify user credentials
+            const isPasswordValid = bcrypt.compareSync(password, userDetails.password);
+            if (!isPasswordValid) {
+                throw {
+                    code: 401,
+                    message: "Invalid credentials",
+                    status: "UNAUTHORIZED"
+                }
+            }
+            // Check if account is activated
+
+            if(userDetails.status!==UserStatus.ACTIVE || userDetails.activationCode !==null){
+                throw {
+                    code: 403,
+                    message: "Account not activated",
+                    status: "FORBIDDEN"
+                }
+            }
+            // 2. Generate JWT token
+            let accessToken = jwt.sign({
+                userId: userDetails._id,
+                type: "Bearer"
+            }, AppConfig.jwtSecret, { expiresIn: '1h' });
+            // Refresh token generation (optional)
+            let refreshToken = jwt.sign({
+                userId: userDetails._id,
+                type: "Refresh"
+            }, AppConfig.jwtSecret, { expiresIn: '7d' });
+            // 3. Return token in response
+            res.json({
+                data: {
+                   accessToken,
+                   refreshToken
+                },
+                message: "Login successful",
+                status: 200,
+                options: null
+            });
+        } catch (exception) {
+            next(exception);
+        }
+
+    }
 }
 
 const authCtrl = new AuthController();
