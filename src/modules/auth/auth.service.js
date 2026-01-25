@@ -53,6 +53,18 @@ class AuthService extends BaseService {
             throw exception;
         }
     }
+    getUserPublicProfile=(user)=>{
+        return{
+            _id:user._id,
+            name:user.name,
+            email:user.email,
+            image:user.image,
+            gender:user.gender,
+            status:user.status,
+            role:user.role,
+            phone:user.phone,
+        }
+    }
 }
 
 const authSvc = new AuthService(UserModel);

@@ -5,6 +5,7 @@ const authSvc = require("./auth.service");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 class AuthController {
+// Implementing user
     register = async (req, res, next) => {
         try {
             const payload = await authSvc.transformUserData(req);
@@ -34,6 +35,7 @@ class AuthController {
             next(exception);
         }
     }
+// Implementing account activation
     activateAccount = async (req, res, next) => {
         try {
             const token = req.params.token;
@@ -75,17 +77,16 @@ class AuthController {
             next(exception);
         }
     }
-
+// Implementing user login
     login = async (req, res, next) => {
         try {
             // Login logic to be implemented 
-            const {email, password}=req.body;
-            
-            const userDetails=await authSvc.getSingleRowByfilter({
-                email:email
+            const { email, password } = req.body;
+            const userDetails = await authSvc.getSingleRowByfilter({
+                email: email
             })
-          
-            if(!userDetails){
+
+            if (!userDetails) {
                 throw {
                     code: 401,
                     message: "User not registered",
@@ -103,7 +104,7 @@ class AuthController {
             }
             // Check if account is activated
 
-            if(userDetails.status!==UserStatus.ACTIVE || userDetails.activationCode !==null){
+            if (userDetails.status !== UserStatus.ACTIVE || userDetails.activationCode !== null) {
                 throw {
                     code: 403,
                     message: "Account not activated",
@@ -115,16 +116,18 @@ class AuthController {
                 userId: userDetails._id,
                 type: "Bearer"
             }, AppConfig.jwtSecret, { expiresIn: '1h' });
+
             // Refresh token generation (optional)
             let refreshToken = jwt.sign({
                 userId: userDetails._id,
                 type: "Refresh"
             }, AppConfig.jwtSecret, { expiresIn: '7d' });
+
             // 3. Return token in response
             res.json({
                 data: {
-                   accessToken,
-                   refreshToken
+                    accessToken,
+                    refreshToken
                 },
                 message: "Login successful",
                 status: 200,
@@ -134,6 +137,19 @@ class AuthController {
             next(exception);
         }
 
+    }
+// Implementing get logged in user details
+    getLoggedInUserDetail = (req,res,next) => {
+        try {
+            res.json({
+                data: req.loggedInUser,
+                message: "Logged in user details fetched successfully",
+                status: 200,
+                options: null
+            });
+        } catch (exception) {
+            next(exception);
+        }
     }
 }
 
