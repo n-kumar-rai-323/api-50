@@ -20,7 +20,6 @@ const auth = (role=null) => {
             // Assuming the token is in the format
             token = token.split(' ').pop();
             const data = jwt.verify(token, AppConfig.jwtSecret);
-            console.log(data);
             // Attach user info to request object
             if(data.type !== "Bearer"){
                 throw {
@@ -40,7 +39,7 @@ const auth = (role=null) => {
                     status: "UNAUTHORIZED"
                 };
             }
-            console.log(userDetails);
+          
             req.loggedInUser = authSvc.getUserPublicProfile(userDetails);
 
             // Role-based access control
